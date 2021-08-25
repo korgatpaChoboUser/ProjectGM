@@ -14,10 +14,10 @@ public class PlayerCharaterMove : MonoBehaviour
 
     void Update()
     {
-        playerShipMove();
+        PlayerShipMove();
     }
 
-    public void playerShipMove()
+    public void PlayerShipMove()
     {
         if (Input.GetMouseButton(0))
         {
