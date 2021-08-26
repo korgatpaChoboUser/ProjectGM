@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerCharaterMove : MonoBehaviour
 {
+    public GameObject targetPoint;
     public Camera mainCamera;
     public float maxSpeed;
     public float acceleration; // °¡¼Óµµ
@@ -11,22 +12,37 @@ public class PlayerCharaterMove : MonoBehaviour
 
     private float currentSpeed;
 
+    
 
     void Update()
     {
         PlayerShipMove();
     }
 
+    void FixedUpdate()
+    {
+        MousePingAppoint();
+    }
+
+
+    public void MousePingAppoint()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            
+        }
+    }
+
     public void PlayerShipMove()
     {
         if (Input.GetMouseButton(0))
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            
+            Ray raycast;
             RaycastHit raycastHit;
 
-            if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity))
+            raycast = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity))
             {
                 Vector3 directory = new Vector3(raycastHit.point.x - transform.position.x, 0f, raycastHit.point.z - transform.position.z);
                 currentSpeed = Mathf.Clamp(currentSpeed += acceleration * Time.deltaTime, 0f, maxSpeed);
