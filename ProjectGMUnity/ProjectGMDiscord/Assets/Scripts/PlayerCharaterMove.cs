@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerCharaterMove : MonoBehaviour
 {
+
+    public bool isThereTargetPoint = false;
+
     public GameObject moveTargetPoint;
     public Camera mainCamera;
     public float maxSpeed;
@@ -12,6 +15,12 @@ public class PlayerCharaterMove : MonoBehaviour
 
     private float currentSpeed;
 
+
+    void Start()
+    {
+
+    }
+
     void Update()
     {
         PlayerShipMove();
@@ -19,13 +28,13 @@ public class PlayerCharaterMove : MonoBehaviour
 
     void FixedUpdate()
     {
-        MousePingAppoint();
+        //MousePingAppoint();
     }
 
 
     public void MousePingAppoint()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray raycast;
             RaycastHit raycastHit;
@@ -37,33 +46,33 @@ public class PlayerCharaterMove : MonoBehaviour
                 Vector3 targetPoint = new Vector3(raycastHit.point.x - transform.position.x, 0f, raycastHit.point.z - transform.position.z);
 
                 Instantiate(moveTargetPoint, targetPoint, Quaternion.identity);
+
+                isThereTargetPoint = true;
             }
         }
     }
 
     public void PlayerShipMove()
     {
-        //if (Input.GetMouseButton(0))
-        //{
-        //    Ray raycast;
-        //    RaycastHit raycastHit;
+        if (Input.GetMouseButton(0))
+        {
+            Ray raycast;
+            RaycastHit raycastHit;
 
-        //    raycast = mainCamera.ScreenPointToRay(Input.mousePosition);
+            raycast = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        //    if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity))
-        //    {
-        //        Vector3 directory = new Vector3(raycastHit.point.x - transform.position.x, 0f, raycastHit.point.z - transform.position.z);
-        //        currentSpeed = Mathf.Clamp(currentSpeed += acceleration * Time.deltaTime, 0f, maxSpeed);
-        //        //transform.rotation = Quaternion.LookRotation(directory); // 타겟을 향해 바로 회전
-        //        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directory), Time.deltaTime * rotationSpeed);
-        //    }
-        //}
-        //else
-        //{
-        //    currentSpeed = Mathf.Clamp(currentSpeed -= acceleration * Time.deltaTime, 0f, maxSpeed);
-        //}
-
-
+            if (Physics.Raycast(raycast, out raycastHit, Mathf.Infinity))
+            {
+                Vector3 directory = new Vector3(raycastHit.point.x - transform.position.x, 0f, raycastHit.point.z - transform.position.z);
+                currentSpeed = Mathf.Clamp(currentSpeed += acceleration * Time.deltaTime, 0f, maxSpeed);
+                //transform.rotation = Quaternion.LookRotation(directory); // 타겟을 향해 바로 회전
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directory), Time.deltaTime * rotationSpeed);
+            }
+        }
+        else
+        {
+            currentSpeed = Mathf.Clamp(currentSpeed -= acceleration * Time.deltaTime, 0f, maxSpeed);
+        }
 
         transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
     }
