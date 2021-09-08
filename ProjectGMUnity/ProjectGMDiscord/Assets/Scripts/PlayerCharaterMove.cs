@@ -9,9 +9,19 @@ public class PlayerCharaterMove : MonoBehaviour
 
     public GameObject moveTargetPoint;
     public Camera mainCamera;
+
+    public float mSpeed;
+    
     public float maxSpeed;
     public float acceleration; // 가속도
     public float rotationSpeed;
+
+    public float damegedSpeed;
+    public float shipHP;
+    public float shipSB; // 쉴드배터리
+
+    public bool shipDamagedLight = false;
+    public bool shipDamagedSerious = false;
 
     private float currentSpeed;
 
@@ -23,7 +33,11 @@ public class PlayerCharaterMove : MonoBehaviour
 
     void Update()
     {
+        maxSpeed = mSpeed;
+
         PlayerShipMove();
+        ShipDamaged();
+        ShipDamagedCondition();
     }
 
     void FixedUpdate()
@@ -75,5 +89,31 @@ public class PlayerCharaterMove : MonoBehaviour
         }
 
         transform.Translate(Vector3.forward * currentSpeed * Time.deltaTime);
+    }
+
+    public void ShipDamaged()
+    {
+        
+
+
+    }
+
+    public void ShipDamagedCondition()
+    {
+        if(shipDamagedLight == true)
+        {
+            maxSpeed = damegedSpeed;
+        }
+        else if (shipDamagedSerious == true)
+        {
+            damegedSpeed = 1;
+            maxSpeed = damegedSpeed;
+        }
+        else
+        {
+            maxSpeed = mSpeed;
+        }
+
+
     }
 }

@@ -21,6 +21,7 @@ public class SpaceCenter : MonoBehaviour
 
     void SpaceCenterRotation()
     {
-        SpaceCenterDown.transform.rotation
+        SpaceCenterUp.transform.Rotate(new Vector3(0, 1, 0));
+        SpaceCenterDown.transform.Rotate(new Vector3(0, -1, 0));
     }
 }
